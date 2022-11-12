@@ -44,16 +44,22 @@ public class UserService {
                 "}";
     }
 
+    public List<User> getUserByUserName(String username){
+        return userRepository.loginUser(username);
+    }
+
     public String loginService(String username, String password){
-        List<User> foundUsers =  userRepository.loginUser(username);
 
-        if(foundUsers.isEmpty()){
-            return "{\n" +
-                    "\"message\":"+"\" Authentication Failed !!! (USER NOT FOUND) \",\n"+
-                    "}";
-        }
+        List<User> foundUsers =  getUserByUserName(username);
 
-        else if(!foundUsers.get(0).getPassword().equals(password)){
+//        if(foundUsers.isEmpty()){
+//            return "{\n" +
+//                    "\"message\":"+"\" Authentication Failed !!! (USER NOT FOUND) \",\n"+
+//                    "}";
+//        }
+
+//        else
+        if(!foundUsers.get(0).getPassword().equals(password)){
             return "{\n" +
                     "\"message\":"+"\" Password Incorrect !!!\"\n"+
                     "}";

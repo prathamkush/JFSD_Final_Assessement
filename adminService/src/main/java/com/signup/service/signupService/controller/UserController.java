@@ -25,6 +25,8 @@ public class UserController {
 
         if(!PayloadValidation.createdPayloadIdValidation(payload)) throw new BadRequestException("PAYLOAD MALFORMED. OBJECT ID MUST NOT BE DEFINED !!!");
 
+        if(!service.getUserByUserName(payload.getUsername()).isEmpty()) throw new BadRequestException("User with this USERNAME is already present!!!");
+
         return service.signupService(payload);
     }
 
@@ -33,6 +35,8 @@ public class UserController {
     public String login(@RequestBody Map<String, Object> map) throws UserException, BadRequestException {
 
         if(!PayloadValidation.createdPayloadUsernameField(map)) throw new BadRequestException("PAYLOAD MALFORMED. Username Must be Provided at Login !!!");
+
+        if(service.getUserByUserName(map.get("username").toString()).isEmpty()) throw new UserException("User with this username NOT FOUND");
 
         return service.loginService(map.get("username").toString(), map.get("password").toString());
     }

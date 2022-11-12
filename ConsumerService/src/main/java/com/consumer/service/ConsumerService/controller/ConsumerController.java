@@ -4,6 +4,7 @@ package com.consumer.service.ConsumerService.controller;
 import com.consumer.service.ConsumerService.model.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,17 +27,17 @@ public class ConsumerController {
         return adminConsumer.getUsers();
     }
 
-    @PostMapping("/signup")
+    @RequestMapping(value = "/signup", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String signup(@RequestBody User user) throws Exception{
         return adminConsumer.signup(user);
     }
 
-    @PostMapping("/login")
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     String login(@RequestBody Map<String, Object> map){
 
         String initial_response =  adminConsumer.login(map);
 
-        System.out.println(initial_response);
+        //System.out.println(initial_response);
 
         // if email not found || password is incorrect
         if(!initial_response.contains("data")) return initial_response;
