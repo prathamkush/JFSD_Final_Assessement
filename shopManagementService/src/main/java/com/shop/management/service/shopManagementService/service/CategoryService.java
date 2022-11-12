@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -19,16 +20,19 @@ public class CategoryService {
     private CategoryRepository repository;
 
 
-    public Category addCategory(Category category){
-        return repository.save(category);
-    }
-
 
     //--------------------------------------------------------------//
                     // Short useful services //
 
     public List<Category> getCategories(){
         return repository.findAll();
+    }
+    public Category getCategoryById(int id){
+        Optional<Category> cat =  repository.findById(id);
+
+        if(cat.isPresent()) return cat.get();
+
+        return null;
     }
     public boolean checkCategoryExistsById(int id){
         return repository.existsById(id);
@@ -40,6 +44,11 @@ public class CategoryService {
 
     //--------------------------------------------------------------//
 
+
+
+    public Category addCategory(Category category){
+        return repository.save(category);
+    }
 
     @Transactional
     public String updateCategoryById(int category_id, String description){
@@ -53,9 +62,6 @@ public class CategoryService {
 
         return "{\"message\" : \"Successfully DELETED this category !!\"}";
     }
-
-
-
 
 
 }

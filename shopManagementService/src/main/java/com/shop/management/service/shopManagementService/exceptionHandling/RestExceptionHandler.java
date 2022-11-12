@@ -11,7 +11,7 @@ public class RestExceptionHandler {
 
 
     // for not found
-    @ExceptionHandler(CategoryException.class)
+    @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> exceptionMovieHandler(Exception e){
 
         ErrorResponse errorResponse = new ErrorResponse();
@@ -24,7 +24,7 @@ public class RestExceptionHandler {
 
 
 
-    // Any Bad Request Exception
+    // Any Bad Request Exception (CUSTOM ERROR MESSAGE)
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> exceptionHandlerBadRequest(Exception e){
 

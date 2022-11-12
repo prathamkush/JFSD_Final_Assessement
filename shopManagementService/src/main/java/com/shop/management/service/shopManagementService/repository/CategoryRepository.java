@@ -27,12 +27,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
             "WHERE c.name = :name")
     List<Category> getCategoriesByName(@Param("name") String name);
 
-//    @Modifying
-//    @Query("SELECT c " +
-//            "FROM Category c " +
-//            "WHERE c.name = :name")
-//    List<Category> getCategoriesByName(@Param("name") String name);
-
 
 
 }

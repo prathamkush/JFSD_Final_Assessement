@@ -4,7 +4,7 @@ package com.shop.management.service.shopManagementService.model;
 
 import java.util.Map;
 
-public class CategoryPayloadValidation {
+public class PayloadValidation {
 
     public static boolean createdPayloadIdValidation(Category category){
 
@@ -15,6 +15,16 @@ public class CategoryPayloadValidation {
 
         return true;
     }
+
+    public static boolean createdPayloadIdValidation(Product product){
+
+        if(product.getProduct_id()>0){
+            return false;
+        }
+
+        return true;
+    }
+
 
     public static boolean createdPayloadDescriptionField(Map<String, Object> map){
 

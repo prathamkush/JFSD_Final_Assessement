@@ -3,13 +3,13 @@ package com.shop.management.service.shopManagementService.exceptionHandling;
 
 
 
-public class CategoryException extends Exception{
+public class EntityNotFoundException extends Exception{
 
     private String errorMessage;
 
-    public CategoryException(){}
+    public EntityNotFoundException(){}
 
-    public CategoryException(String errorMessage){
+    public EntityNotFoundException(String errorMessage){
         super(errorMessage);
         this.errorMessage = errorMessage;
     }
