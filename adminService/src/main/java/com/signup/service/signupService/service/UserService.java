@@ -1,6 +1,7 @@
 package com.signup.service.signupService.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.signup.service.signupService.exceptionHandling.BadRequestException;
 import com.signup.service.signupService.model.User;
 import com.signup.service.signupService.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class UserService {
 
 
 
-    public String signupService(User user){
+    public String signupService(User user) {
 
         if(!user.getPassword().equals(user.getPassword_confirm())){
             return "{\"message\" : \"Error!! Both passwords SHOULD MATCH !!\"}";
@@ -61,7 +62,7 @@ public class UserService {
         return "{\n" +
                 "\"message\":"+"\" Successfully Logged-in\",\n"+
                 "\"data\": {\n"+"       Username : "+foundUsers.get(0).getUsername()+",\n"+
-                                "       id : "+foundUsers.get(0).getId()+",\n"+
+                                "       id : "+foundUsers.get(0).getId().toString()+",\n"+
                                 "       Email : "+foundUsers.get(0).getEmail()+"\n"+
                             "   }\n"+
                 "}";

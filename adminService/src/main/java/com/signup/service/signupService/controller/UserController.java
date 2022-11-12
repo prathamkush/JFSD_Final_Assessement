@@ -1,33 +1,39 @@
 package com.signup.service.signupService.controller;
 
+import com.signup.service.signupService.exceptionHandling.BadRequestException;
+import com.signup.service.signupService.exceptionHandling.UserException;
+import com.signup.service.signupService.model.PayloadValidation;
 import com.signup.service.signupService.model.User;
 import com.signup.service.signupService.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.Media;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("user")
 public class UserController {
-    private UserService service;
     @Autowired
-    public UserController(UserService service){
-        this.service = service;
-    }
+    private UserService service;
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String signup(@RequestBody User user){
-        return service.signupService(user);
+    public String signup(@RequestBody User payload) throws BadRequestException {
+
+        if(!PayloadValidation.createdPayloadIdValidation(payload)) throw new BadRequestException("PAYLOAD MALFORMED. OBJECT ID MUST NOT BE DEFINED !!!");
+
+        return service.signupService(payload);
     }
 
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String login(@RequestBody Map<String, Object> map){
+    public String login(@RequestBody Map<String, Object> map) throws UserException, BadRequestException {
+
+        if(!PayloadValidation.createdPayloadUsernameField(map)) throw new BadRequestException("PAYLOAD MALFORMED. Username Must be Provided at Login !!!");
+
         return service.loginService(map.get("username").toString(), map.get("password").toString());
     }
 

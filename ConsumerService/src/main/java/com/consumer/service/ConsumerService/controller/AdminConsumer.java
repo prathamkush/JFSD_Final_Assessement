@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @FeignClient("admin-service/user")
-public interface RestConsumer {
+public interface AdminConsumer {
 
     @PostMapping("/signup")
     String signup(@RequestBody User user);
