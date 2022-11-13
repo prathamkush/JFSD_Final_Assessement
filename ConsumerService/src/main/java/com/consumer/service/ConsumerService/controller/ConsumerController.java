@@ -29,34 +29,49 @@ public class ConsumerController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String signup(@RequestBody User user) throws Exception{
-        return adminConsumer.signup(user);
+        try{
+            return adminConsumer.signup(user);
+        }
+        catch (Exception e){
+            String errorResponse = e.getMessage();
+            int index = errorResponse.indexOf("{\"errorCode");
+            System.out.println(e.getMessage());
+            return errorResponse.substring(index, errorResponse.length()-1);
+        }
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    String login(@RequestBody Map<String, Object> map){
+    public String login(@RequestBody Map<String, Object> map){
 
-        String initial_response =  adminConsumer.login(map);
+        try {
 
-        //System.out.println(initial_response);
+            String initial_response = adminConsumer.login(map);
 
-        // if email not found || password is incorrect
-        if(!initial_response.contains("data")) return initial_response;
+            // if username not found || password is incorrect
+            if (!initial_response.contains("data")) return initial_response;
 
-        // else insert token with the initial response
-        int id_index = initial_response.indexOf("id")+5;
-        String id = initial_response.substring(  id_index,
-                                                    initial_response.indexOf(",", id_index));
+            // else insert token with the initial response
+            int id_index = initial_response.indexOf("id") + 5;
+            String id = initial_response.substring(id_index,
+                    initial_response.indexOf(",", id_index));
 
 
-        String token = createToken(new ObjectId(id));
+            String token = createToken(new ObjectId(id));
 
-        //System.out.println(new ObjectId(id));
+            //System.out.println(new ObjectId(id));
 
-        StringBuilder response = new StringBuilder(initial_response);
-        int token_index = initial_response.indexOf('}', id_index)-4;
-        response.insert(token_index, ",\n"+"       token : "+token);
+            StringBuilder response = new StringBuilder(initial_response);
+            int token_index = initial_response.indexOf('}', id_index) - 4;
+            response.insert(token_index, ",\n" + "       token : " + token);
 
-        return response.toString();
+            return response.toString();
+        }
+        catch (Exception e){
+            String errorResponse = e.getMessage();
+            int index = errorResponse.indexOf("{\"errorCode");
+            System.out.println(e.getMessage());
+            return errorResponse.substring(index, errorResponse.length()-1);
+        }
 
     }
     @GetMapping("/get-token/{id}")
