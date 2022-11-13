@@ -42,15 +42,17 @@ public class CategoryController {
     }
 
 
-    @RequestMapping(value = "/update-description-by-id/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/update-category-by-id/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String updateCategoryById(@PathVariable("id") int category_id, @RequestBody Map<String, Object> map) throws EntityNotFoundException, BadRequestException{
 
-        if(!PayloadValidation.createdPayloadDescriptionField(map)) throw new BadRequestException("PAYLOAD MALFORMED. Description MUST be PROVIDED !!!");
+        if(map.size()!=1) throw new BadRequestException("PAYLOAD MALFORMED. You MUST UPDATE Only One field at a time");
+
+        if(!PayloadValidation.createdPayloadCategoryField(map)) throw new BadRequestException("PAYLOAD MALFORMED. Either (only) Description or Name MUST be PROVIDED !!!");
 
         if(!service.checkCategoryExistsById(category_id)) throw new EntityNotFoundException("Category with this id NOT FOUND");
 
-        return service.updateCategoryById(category_id,map.get("description").toString());
-
+        if(map.containsKey("description")) return service.updateCategoryById(category_id, "description", map.get("description").toString());
+        return service.updateCategoryById(category_id, "name", map.get("name").toString());
     }
 
 

@@ -23,7 +23,7 @@ public class ProductService {
 
 
     //--------------------------------------------------------------//
-    // Short useful services //
+                // Short useful services //
 
     public List<Product> getProducts(){
         return repository.findAll();
@@ -56,10 +56,23 @@ public class ProductService {
 
 
     @Transactional
-    public String updateDescriptionById(int product_id, String description){
-        repository.updateProductById(product_id, description);
+    public String updateProductById(int product_id, String field, String value){
 
-        return "{\"message\" : \"Successfully UPDATED Description !!\"}";
+        if(field.equals("description")) {
+            repository.updateProductDescriptionById(product_id, value);
+
+            return "{\"message\" : \"Successfully UPDATED Description !!\"}";
+        }
+
+        else if(field.equals("price")){
+            repository.updateProductPriceById(product_id, Double.parseDouble(value));
+
+            return "{\"message\" : \"Successfully UPDATED Price !!\"}";
+        }
+
+        repository.updateProductNameById(product_id, value);
+
+        return "{\"message\" : \"Successfully UPDATED Name !!\"}";
     }
 
     public String deleteProductById(int product_id){

@@ -51,10 +51,17 @@ public class CategoryService {
     }
 
     @Transactional
-    public String updateCategoryById(int category_id, String description){
-        repository.updateCategoryById(category_id, description);
+    public String updateCategoryById(int category_id, String field, String value){
+        if(field.equals("description")){
+            repository.updateCategoryDescriptionById(category_id, value);
 
-        return "{\"message\" : \"Successfully UPDATED Description !!\"}";
+            return "{\"message\" : \"Successfully UPDATED Description !!\"}";
+        }
+
+        repository.updateCategoryNameById(category_id, value);
+
+        return "{\"message\" : \"Successfully UPDATED Name !!\"}";
+
     }
 
     public String deleteCategoryById(int category_id){

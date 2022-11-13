@@ -18,8 +18,14 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Modifying
     @Query("UPDATE Category c SET c.description = :description " +
             "WHERE c.category_id = :category_id")
-    void updateCategoryById(@Param("category_id") int category_id,
+    void updateCategoryDescriptionById(@Param("category_id") int category_id,
                                                  @Param("description") String description);
+
+    @Modifying
+    @Query("UPDATE Category c SET c.name = :name " +
+            "WHERE c.category_id = :category_id")
+    void updateCategoryNameById(@Param("category_id") int category_id,
+                            @Param("name") String name);
 
     @Modifying
     @Query("SELECT c " +

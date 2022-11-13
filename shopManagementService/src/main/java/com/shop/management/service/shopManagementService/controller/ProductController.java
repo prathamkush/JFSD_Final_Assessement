@@ -60,14 +60,22 @@ public class ProductController {
 
 
 
-    @RequestMapping(value = "/update-description-by-id/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/update-product-by-id/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String updateProductById(@PathVariable("id") int product_id, @RequestBody Map<String, Object> map) throws EntityNotFoundException, BadRequestException{
 
-        if(!PayloadValidation.createdPayloadDescriptionField(map)) throw new BadRequestException("PAYLOAD MALFORMED. Description MUST be PROVIDED !!!");
+        if(map.size()!=1) throw new BadRequestException("PAYLOAD MALFORMED. You MUST UPDATE Only One field at a time");
+
+        if(!PayloadValidation.createdPayloadProductField(map)) throw new BadRequestException("PAYLOAD MALFORMED. Either (only) Description or Price or name MUST be PROVIDED !!!");
 
         if(!productService.checkProductExistsById(product_id)) throw new EntityNotFoundException("Product with this id NOT FOUND");
 
-        return productService.updateDescriptionById(product_id,map.get("description").toString());
+
+
+        if(map.containsKey("description")) return productService.updateProductById(product_id,"description", map.get("description").toString());
+
+        else if(map.containsKey("price")) return productService.updateProductById(product_id,"price" , map.get("price").toString());
+
+        return productService.updateProductById(product_id, "name", map.get("name").toString());
 
     }
 

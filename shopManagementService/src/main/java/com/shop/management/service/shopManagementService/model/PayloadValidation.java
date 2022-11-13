@@ -26,9 +26,15 @@ public class PayloadValidation {
     }
 
 
-    public static boolean createdPayloadDescriptionField(Map<String, Object> map){
+    public static boolean createdPayloadCategoryField(Map<String, Object> map){
 
-        if(!map.containsKey("description")) return false;
+        if(!map.containsKey("description") && !map.containsKey("name")) return false;
+        return true;
+    }
+
+    public static boolean createdPayloadProductField(Map<String, Object> map){
+
+        if(!map.containsKey("description") && !map.containsKey("price") && !map.containsKey("name")) return false;
         return true;
     }
 
