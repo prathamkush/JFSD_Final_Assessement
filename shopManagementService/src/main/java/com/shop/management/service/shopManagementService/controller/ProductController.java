@@ -60,7 +60,7 @@ public class ProductController {
 
 
 
-    @RequestMapping(value = "/update-product-by-id/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/update-product-by-id/{id}", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
     public String updateProductById(@PathVariable("id") int product_id, @RequestBody Map<String, Object> map) throws EntityNotFoundException, BadRequestException{
 
         if(map.size()!=1) throw new BadRequestException("PAYLOAD MALFORMED. You MUST UPDATE Only One field at a time");
@@ -88,6 +88,7 @@ public class ProductController {
         return productService.deleteProductById(product_id);
     }
 
+
     @RequestMapping(value = "/get-product-by-field", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Product> getProductByField(@RequestBody Map<String, Object> map) throws EntityNotFoundException, BadRequestException{
 
@@ -101,7 +102,7 @@ public class ProductController {
         else if(map.containsKey("price")) res = productService.getProductByField("price", map.get("price").toString());
         else res = productService.getProductByField("name", map.get("name").toString());
 
-        if(res==null) throw new EntityNotFoundException("NO SUCH Product(s) Found");
+        if(res==null) throw new EntityNotFoundException("NO SUCH Product(s) Found"); //404
         return res;
     }
 
