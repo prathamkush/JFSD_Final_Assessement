@@ -1,6 +1,8 @@
 package com.consumer.service.ConsumerService.controller;
 
 
+import com.consumer.service.ConsumerService.model.Category;
+import com.consumer.service.ConsumerService.model.Product;
 import com.consumer.service.ConsumerService.model.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,28 @@ public class ConsumerController {
 
     @Autowired
     TokenConsumer tokenConsumer;
+
+    @Autowired
+    ProductConsumer productConsumer;
+
+    @Autowired
+    CategoryConsumer categoryConsumer;
+
+
+
+
+    //-----------------------------------TOKEN-SERVICE CONSUMER--------------------------------------//
+
+    @GetMapping("/get-token/{id}")
+    String createToken(@PathVariable("id") ObjectId id){
+        return tokenConsumer.createToken(id);
+    }
+
+
+
+
+
+    //-----------------------------------ADMIN-SERVICE CONSUMER--------------------------------------//
 
     @GetMapping("/get-users")
     List<User> getUsers(){
@@ -69,14 +93,57 @@ public class ConsumerController {
         catch (Exception e){
             String errorResponse = e.getMessage();
             int index = errorResponse.indexOf("{\"errorCode");
-            System.out.println(e.getMessage());
             return errorResponse.substring(index, errorResponse.length()-1);
         }
 
     }
-    @GetMapping("/get-token/{id}")
-    String createToken(@PathVariable("id") ObjectId id){
-        return tokenConsumer.createToken(id);
+
+
+    //-----------------------------------ShopManagement-SERVICE (Category) CONSUMER--------------------------------------//
+
+    @RequestMapping(value = "/shop-management/add-category", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String addCategory(@RequestBody Category category){
+
+        try{
+            return categoryConsumer.addCategory(category).toString();
+        }
+        catch (Exception e){
+            String errorResponse = e.getMessage();
+            int index = errorResponse.indexOf("{\"errorCode");
+            return errorResponse.substring(index, errorResponse.length()-1);
+        }
+
     }
+
+    @RequestMapping(value = "/shop-management/update-category-by-id/{id}", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String updateCategoryById(@PathVariable("id") int category_id, @RequestBody Map<String, Object> map){
+
+        try{
+            return categoryConsumer.updateCategoryById(category_id,map);
+        }
+
+        catch (Exception e){
+            String errorResponse = e.getMessage();
+            int index = errorResponse.indexOf("{\"errorCode");
+            return errorResponse.substring(index, errorResponse.length()-1);
+        }
+
+    }
+
+    @RequestMapping(value = "/shop-management/delete-category-by-id/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteCategoryById(@PathVariable("id") int category_id){
+
+        try{
+            return categoryConsumer.deleteCategoryById(category_id);
+        }
+
+        catch (Exception e){
+            String errorResponse = e.getMessage();
+            int index = errorResponse.indexOf("{\"errorCode");
+            return errorResponse.substring(index, errorResponse.length()-1);
+        }
+    }
+
+    //-----------------------------------ShopManagement-SERVICE (Product) CONSUMER--------------------------------------//
 
 }
