@@ -24,6 +24,11 @@ public class CategoryController {
     private CategoryService service;
 
 
+    @GetMapping("/check")
+    public String check(){
+        return "CHECK";
+    }
+
     @RequestMapping(value = "/get-categories", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Category> getCategories(){
         return service.getCategories();
@@ -47,7 +52,7 @@ public class CategoryController {
 
         if(map.size()!=1) throw new BadRequestException("PAYLOAD MALFORMED. You MUST UPDATE Only One field at a time");
 
-        if(!PayloadValidation.createdPayloadCategoryField(map)) throw new BadRequestException("PAYLOAD MALFORMED. Either (only) Description or Name MUST be PROVIDED !!!");
+        if(!PayloadValidation.createdPayloadCategoryField(map)) throw new BadRequestException("PAYLOAD MALFORMED. Either (only) description or name MUST be PROVIDED !!!");
 
         if(!service.checkCategoryExistsById(category_id)) throw new EntityNotFoundException("Category with this id NOT FOUND");
 
@@ -65,6 +70,22 @@ public class CategoryController {
     }
 
 
+
+    @RequestMapping(value = "/get-category-by-field", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Category> getCategoriesByField(@RequestBody Map<String, Object> map) throws EntityNotFoundException, BadRequestException{
+
+        if(map.size()!=1) throw new BadRequestException("PAYLOAD MALFORMED. You MUST INPUT One field at a time");
+
+        if(!PayloadValidation.createdPayloadCategoryField(map) && !map.containsKey("category_id")) throw new BadRequestException("PAYLOAD MALFORMED. Either (only) category_id or description or name MUST be PROVIDED !!!");
+
+        List<Category> res;
+        if(map.containsKey("category_id")) res = service.getCategoryByField("category_id",map.get("category_id").toString());
+        else if(map.containsKey("description")) res = service.getCategoryByField("description", map.get("description").toString());
+        else res = service.getCategoryByField("name", map.get("name").toString());
+
+        if(res==null) throw new EntityNotFoundException("NO SUCH Category(s) Found");
+        return res;
+    }
 
 
 

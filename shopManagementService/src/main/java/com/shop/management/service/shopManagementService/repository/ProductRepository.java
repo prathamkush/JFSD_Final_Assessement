@@ -14,6 +14,8 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
+    //--------------------UPDATE QUERIES (BY ANY FIELD) ------------------------//
+
     @Modifying
     @Query("UPDATE Product p SET p.description = :description " +
             "WHERE p.product_id = :product_id")
@@ -33,10 +35,25 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                                       @Param("name") String name);
 
 
+
+
+    //--------------------SELECT QUERIES (BY ANY FIELD) ------------------------//
     @Modifying
     @Query("SELECT p " +
             "FROM Product p " +
             "WHERE p.name = :name")
     List<Product> getProductsByName(@Param("name") String name);
+
+    @Modifying
+    @Query("SELECT p " +
+            "FROM Product p " +
+            "WHERE p.price = :price")
+    List<Product> getProductsByPrice(@Param("price") double price);
+
+    @Modifying
+    @Query("SELECT p " +
+            "FROM Product p " +
+            "WHERE p.description = :description")
+    List<Product> getProductsByDescription(@Param("description") String description);
 
 }

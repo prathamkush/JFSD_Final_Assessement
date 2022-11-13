@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
+    //--------------------UPDATE QUERIES (BY ANY FIELD) ------------------------//
 
     @Modifying
     @Query("UPDATE Category c SET c.description = :description " +
@@ -27,11 +28,22 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     void updateCategoryNameById(@Param("category_id") int category_id,
                             @Param("name") String name);
 
+
+
+    //--------------------SELECT QUERIES (BY ANY FIELD) ------------------------//
+
     @Modifying
     @Query("SELECT c " +
             "FROM Category c " +
             "WHERE c.name = :name")
     List<Category> getCategoriesByName(@Param("name") String name);
+
+
+    @Modifying
+    @Query("SELECT c " +
+            "FROM Category c " +
+            "WHERE c.description = :description")
+    List<Category> getCategoriesByDescription(@Param("description") String description);
 
 
 

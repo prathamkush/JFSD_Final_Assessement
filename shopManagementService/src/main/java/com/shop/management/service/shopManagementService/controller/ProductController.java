@@ -65,7 +65,7 @@ public class ProductController {
 
         if(map.size()!=1) throw new BadRequestException("PAYLOAD MALFORMED. You MUST UPDATE Only One field at a time");
 
-        if(!PayloadValidation.createdPayloadProductField(map)) throw new BadRequestException("PAYLOAD MALFORMED. Either (only) Description or Price or name MUST be PROVIDED !!!");
+        if(!PayloadValidation.createdPayloadProductField(map)) throw new BadRequestException("PAYLOAD MALFORMED. Either (only) description or price or name MUST be PROVIDED !!!");
 
         if(!productService.checkProductExistsById(product_id)) throw new EntityNotFoundException("Product with this id NOT FOUND");
 
@@ -86,6 +86,23 @@ public class ProductController {
         if(!productService.checkProductExistsById(product_id)) throw new EntityNotFoundException("Product with this id NOT FOUND");
 
         return productService.deleteProductById(product_id);
+    }
+
+    @RequestMapping(value = "/get-product-by-field", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Product> getProductByField(@RequestBody Map<String, Object> map) throws EntityNotFoundException, BadRequestException{
+
+        if(map.size()!=1) throw new BadRequestException("PAYLOAD MALFORMED. You MUST INPUT One field at a time");
+
+        if(!PayloadValidation.createdPayloadProductField(map) && !map.containsKey("product_id")) throw new BadRequestException("PAYLOAD MALFORMED. Either (only) product_id or description or price or name MUST be PROVIDED !!!");
+
+        List<Product> res;
+        if(map.containsKey("product_id")) res = productService.getProductByField("product_id",map.get("product_id").toString());
+        else if(map.containsKey("description")) res = productService.getProductByField("description", map.get("description").toString());
+        else if(map.containsKey("price")) res = productService.getProductByField("price", map.get("price").toString());
+        else res = productService.getProductByField("name", map.get("name").toString());
+
+        if(res==null) throw new EntityNotFoundException("NO SUCH Product(s) Found");
+        return res;
     }
 
 

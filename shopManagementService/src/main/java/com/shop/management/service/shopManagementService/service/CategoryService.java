@@ -2,12 +2,15 @@ package com.shop.management.service.shopManagementService.service;
 
 
 import com.shop.management.service.shopManagementService.model.Category;
+import com.shop.management.service.shopManagementService.model.Product;
 import com.shop.management.service.shopManagementService.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,5 +73,26 @@ public class CategoryService {
         return "{\"message\" : \"Successfully DELETED this category !!\"}";
     }
 
+
+
+    //----------- GET Category BY ANY FIELD ------------//
+    @Transactional
+    public List<Category> getCategoryByField(String field, String value){
+
+
+        if(field.equals("category_id")){
+            Optional<Category> category;
+            category = repository.findById(Integer.parseInt(value));
+            if(category.isPresent()) return new ArrayList<>(Arrays.asList(category.get()));
+            return null;
+        }
+
+        List<Category> resList;
+        if(field.equals("description")) resList = repository.getCategoriesByDescription(value);
+        else resList = repository.getCategoriesByName(value);
+
+        if(resList.size()>0) return resList;
+        return null;
+    }
 
 }
