@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Category {
 
-    private int category_id;
+    private int id;
     private String name;
     private String description;
 
     @Override
     public String toString() {
         return "{" +
-                "\"category_id\":" + category_id +
+                "\"id\":" + id +
                 ", \"name\":\"" + name + "\"" +
                 ", \"description\":\"" + description + "\"" +
                 '}';

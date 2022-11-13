@@ -44,9 +44,33 @@ public class ProductController {
         return productService.addProduct(product);
     }
 
+    @RequestMapping(value = "/add-products", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Product> addProducts(@RequestBody List<Product> products) {
+        return productService.addProducts(products);
+    }
 
+
+
+
+    // 1:many relationship addition
     @RequestMapping(value = "/product-with-category/{product_id}/{category_id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Product assignDetails(@PathVariable("product_id") int product_id, @PathVariable("category_id") int category_id) throws  EntityNotFoundException{
+    public Product assignDetails(@PathVariable("product_id") int product_id, @PathVariable("category_id") int category_id) throws EntityNotFoundException{
+
+        if(!productService.checkProductExistsById(product_id)) throw new EntityNotFoundException("Product with this ID Doesn't Exists !!");
+
+        Category category = categoryService.getCategoryById(category_id);
+        if(category==null) throw new EntityNotFoundException("Category with this Id Doesn't Exist!! Cannot Assign to Product!!");
+
+        // System.out.println(category);
+
+        return productService.addCategory(product_id, category);
+    }
+
+
+    // 1:many relationship deletion
+
+    @RequestMapping(value = "/product-with-category/remove/{product_id}/{category_id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Product removeDetails(@PathVariable("product_id") int product_id, @PathVariable("category_id") int category_id) throws EntityNotFoundException{
 
         if(!productService.checkProductExistsById(product_id)) throw new EntityNotFoundException("Product with this ID Doesn't Exists !!");
 
@@ -55,9 +79,8 @@ public class ProductController {
 
         //System.out.println(category);
 
-        return productService.assignCategory(product_id, category);
+        return productService.removeCategory(product_id, category);
     }
-
 
 
     @RequestMapping(value = "/update-product-by-id/{id}", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)

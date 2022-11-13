@@ -46,16 +46,34 @@ public class ProductService {
         return repository.save(product);
     }
 
+    public List<Product> addProducts(List<Product> products) { return repository.saveAll(products); }
 
-    // Grabbing Category object into Product
-    public Product assignCategory(int product_id, Category category){
+
+    // for 1:many adding
+    public Product addCategory(int product_id, Category category){
 
         Product product = repository.findById(product_id).get();
 
-        product.setCategory(category);
+        product.addCategory(category);
 
         return repository.save(product);
     }
+
+    // for 1:many removal
+    public Product removeCategory(int product_id, Category category){
+
+        Product product = repository.findById(product_id).get();
+
+        product.removeCategory(category);
+
+        return repository.save(product);
+    }
+
+
+
+
+
+
 
 
     @Transactional

@@ -9,6 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
+import java.util.ArrayList;
+
 
 @EnableEurekaClient
 @SpringBootApplication
@@ -38,13 +40,6 @@ public class ShopManagementServiceApplication implements CommandLineRunner {
 
 		System.out.println("----------------------------------------------------------------------------------");
 
-
-		productRepository.save(new Product("Samsung S21", 100000, "5G Mobile",null));
-		productRepository.save(new Product("Iphone 14+", 80000, "IOS 16 Mobile", null));
-		productRepository.save(new Product("IKEA Table", 10000, "5ft Table", null));
-		productRepository.save(new Product("Puma Shirt", 3000, "Red M", null));
-
-		productRepository.findAll().forEach(System.out::println);
 
 	}
 }

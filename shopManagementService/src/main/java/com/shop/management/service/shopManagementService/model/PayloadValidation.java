@@ -9,7 +9,7 @@ public class PayloadValidation {
     public static boolean createdPayloadIdValidation(Category category){
 
 
-        if(category.getCategory_id()>0){
+        if(category.getId()>0){
             return false;
         }
 
@@ -18,7 +18,7 @@ public class PayloadValidation {
 
     public static boolean createdPayloadIdValidation(Product product){
 
-        if(product.getProduct_id()>0){
+        if(product.getId()>0){
             return false;
         }
 
