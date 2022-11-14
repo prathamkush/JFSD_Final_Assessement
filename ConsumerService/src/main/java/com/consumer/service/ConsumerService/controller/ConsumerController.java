@@ -101,6 +101,12 @@ public class ConsumerController {
 
     //-----------------------------------ShopManagement-SERVICE (Category) CONSUMER--------------------------------------//
 
+    @GetMapping("/shop-management/categories")
+    public List<Category> getCategories(){
+        return categoryConsumer.getCategories();
+    }
+
+
     @RequestMapping(value = "/shop-management/add-category", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String addCategory(@RequestBody Category category){
 
@@ -115,7 +121,7 @@ public class ConsumerController {
 
     }
 
-    @RequestMapping(value = "/shop-management/update-category-by-id/{id}", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/shop-management/update-category-by-id/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String updateCategoryById(@PathVariable("id") int category_id, @RequestBody Map<String, Object> map){
 
         try{
@@ -124,6 +130,7 @@ public class ConsumerController {
 
         catch (Exception e){
             String errorResponse = e.getMessage();
+            System.out.println(e+"\n"+"---------------------------------------------------");
             int index = errorResponse.indexOf("{\"errorCode");
             return errorResponse.substring(index, errorResponse.length()-1);
         }
@@ -145,5 +152,72 @@ public class ConsumerController {
     }
 
     //-----------------------------------ShopManagement-SERVICE (Product) CONSUMER--------------------------------------//
+
+    @GetMapping("/shop-management/products")
+    public List<Product> getProducts(){
+        return productConsumer.getProducts();
+    }
+
+
+    @RequestMapping(value = "/shop-management/add-products", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String addProducts(@RequestBody List<Product> products){
+        try {
+            return productConsumer.addProducts(products).toString();
+        }
+        catch (Exception e){
+            String errorResponse = e.getMessage();
+            int index = errorResponse.indexOf("{\"errorCode");
+            return errorResponse.substring(index, errorResponse.length()-1);
+        }
+    }
+
+    @RequestMapping(value = "/shop-management/add-product", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String addProduct(@RequestBody Product product){
+        try {
+            return productConsumer.addProduct(product).toString();
+        }
+        catch (Exception e){
+            String errorResponse = e.getMessage();
+            int index = errorResponse.indexOf("{\"errorCode");
+            return errorResponse.substring(index, errorResponse.length()-1);
+        }
+
+    }
+
+    @RequestMapping(value = "/shop-management/product-with-category/{product_id}/{category_id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String assignDetails(@PathVariable("product_id") int product_id, @PathVariable("category_id") int category_id){
+        try{
+            return productConsumer.assignDetails(product_id, category_id).toString();
+        }
+        catch (Exception e){
+            String errorResponse = e.getMessage();
+            int index = errorResponse.indexOf("{\"errorCode");
+            return errorResponse.substring(index, errorResponse.length()-1);
+        }
+    }
+
+    @RequestMapping(value = "/shop-management/update-product-by-id/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String updateProductById(@PathVariable("id") int product_id, @RequestBody Map<String, Object> map){
+        try{
+            return productConsumer.updateProductById(product_id, map);
+        }
+        catch (Exception e){
+            String errorResponse = e.getMessage();
+            int index = errorResponse.indexOf("{\"errorCode");
+            return errorResponse.substring(index, errorResponse.length()-1);
+        }
+    }
+
+    @RequestMapping(value = "/shop-management/delete-product-by-id/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteProductById(@PathVariable("id") int product_id){
+        try{
+            return productConsumer.deleteProductById(product_id);
+        }
+        catch (Exception e){
+            String errorResponse = e.getMessage();
+            int index = errorResponse.indexOf("{\"errorCode");
+            return errorResponse.substring(index, errorResponse.length()-1);
+        }
+    }
 
 }

@@ -16,11 +16,14 @@ public interface CategoryConsumer {
     String check();
 
 
+    @RequestMapping(value = "/get-categories", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    List<Category> getCategories();
+
     @RequestMapping(value = "/add-category", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     Category addCategory(@RequestBody Category category);
 
 
-    @RequestMapping(value = "/update-category-by-id/{id}", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/update-category-by-id/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     String updateCategoryById(@PathVariable("id") int category_id, @RequestBody Map<String, Object> map);
 
 
