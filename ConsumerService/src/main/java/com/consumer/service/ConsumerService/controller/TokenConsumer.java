@@ -12,4 +12,7 @@ public interface TokenConsumer {
     @GetMapping("/get-token/{id}")
     String createToken(@PathVariable("id") ObjectId id);
 
+    @GetMapping("/get-userId-from-token/{token}")
+    String getUserIdFromToken(@PathVariable("token") String token);
+
 }
