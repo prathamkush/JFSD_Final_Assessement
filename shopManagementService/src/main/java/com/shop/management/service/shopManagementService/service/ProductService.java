@@ -109,7 +109,7 @@ public class ProductService {
     public List<Product> getProductByField(String field, String value){
 
 
-        if(field.equals("product_id")){
+        if(field.equals("id")){
             Optional<Product> product;
             product = repository.findById(Integer.parseInt(value));
             if(product.isPresent()) return new ArrayList<>(Arrays.asList(product.get()));

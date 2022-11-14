@@ -76,10 +76,10 @@ public class CategoryController {
 
         if(map.size()!=1) throw new BadRequestException("PAYLOAD MALFORMED. You MUST INPUT One field at a time");
 
-        if(!PayloadValidation.createdPayloadCategoryField(map) && !map.containsKey("category_id")) throw new BadRequestException("PAYLOAD MALFORMED. Either (only) category_id or description or name MUST be PROVIDED !!!");
+        if(!PayloadValidation.createdPayloadCategoryField(map) && !map.containsKey("id")) throw new BadRequestException("PAYLOAD MALFORMED. Either (only) category_id or description or name MUST be PROVIDED !!!");
 
         List<Category> res;
-        if(map.containsKey("category_id")) res = service.getCategoryByField("category_id",map.get("category_id").toString());
+        if(map.containsKey("id")) res = service.getCategoryByField("id",map.get("id").toString());
         else if(map.containsKey("description")) res = service.getCategoryByField("description", map.get("description").toString());
         else res = service.getCategoryByField("name", map.get("name").toString());
 

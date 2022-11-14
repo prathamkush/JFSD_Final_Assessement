@@ -32,6 +32,12 @@ public class Product {
     })
     private List<Category> categories = new ArrayList<>();
 
+    public Product(String test_name, int test_price, String test_description) {
+        this.name = test_name;
+        this.price = test_price;
+        this.description = test_description;
+    }
+
     public void addCategory(Category category){
         categories.add(category);
     }

@@ -80,7 +80,7 @@ public class CategoryService {
     public List<Category> getCategoryByField(String field, String value){
 
 
-        if(field.equals("category_id")){
+        if(field.equals("id")){
             Optional<Category> category;
             category = repository.findById(Integer.parseInt(value));
             if(category.isPresent()) return new ArrayList<>(Arrays.asList(category.get()));
