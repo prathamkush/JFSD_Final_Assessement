@@ -27,7 +27,6 @@ public class Product {
 
     @ManyToMany(cascade = { CascadeType.PERSIST,
                             CascadeType.MERGE,
-                            CascadeType.DETACH,
                             CascadeType.REFRESH
     })
     private List<Category> categories = new ArrayList<>();

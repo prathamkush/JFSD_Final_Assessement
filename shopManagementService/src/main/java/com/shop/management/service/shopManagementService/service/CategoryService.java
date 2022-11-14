@@ -22,6 +22,8 @@ public class CategoryService {
     @Autowired
     private CategoryRepository repository;
 
+    private ProductService productService;
+
 
 
     //--------------------------------------------------------------//
@@ -68,6 +70,7 @@ public class CategoryService {
     }
 
     public String deleteCategoryById(int category_id){
+
         repository.deleteById(category_id);
 
         return "{\"message\" : \"Successfully DELETED this category !!\"}";

@@ -62,11 +62,18 @@ public class CategoryController {
 
 
     @RequestMapping(value = "/delete-category-by-id/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String deleteCategoryById(@PathVariable("id") int category_id) throws EntityNotFoundException {
+    public String deleteCategoryById(@PathVariable("id") int category_id) throws EntityNotFoundException, BadRequestException {
 
         if(!service.checkCategoryExistsById(category_id)) throw new EntityNotFoundException("Category with this id NOT FOUND");
 
-        return service.deleteCategoryById(category_id);
+
+        try{
+            return service.deleteCategoryById(category_id);
+        }
+        catch (Exception e){
+            throw new BadRequestException("Category Can't be deleted !! Because it is linked with some Products !!");
+        }
+
     }
 
 
