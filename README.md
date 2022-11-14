@@ -27,6 +27,7 @@
 <h4> Added Unit Tests & Exceptions in -> admin-service (for User login, signup), shopManagement-service (for product-category) </h4></h4>
 
 
+**_POSTMAN LINK_** -> [https://www.getpostman.com/collections/baf0042d20aae62015a5](https://www.getpostman.com/collections/baf0042d20aae62015a5) 
 
 <h4> Api Endpoints IN CONSUMER</h4>
 
