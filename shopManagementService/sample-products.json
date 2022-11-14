@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Benq Monitor",
+    "price": 20000.0,
+    "description": "Monitor 24 inch"
+  },
+  {
+    "name": "Samsung Monitor",
+    "price": "25000",
+    "description": "Monitor 24 inch"
+  },
+  {
+    "name": "LG Washing Machine",
+    "price": 25000.0,
+    "description": "10 KG"
+  },
+  {
+    "name": "Puma Shirt",
+    "price": 5000.0,
+    "description": "RED M"
+  }
+]

@@ -117,13 +117,16 @@ public class ProductController {
 
         if(map.size()!=1) throw new BadRequestException("PAYLOAD MALFORMED. You MUST INPUT One field at a time");
 
-        if(!PayloadValidation.createdPayloadProductField(map) && !map.containsKey("id")) throw new BadRequestException("PAYLOAD MALFORMED. Either (only) product_id or description or price or name MUST be PROVIDED !!!");
+        if(!PayloadValidation.createdPayloadProductField(map) && !map.containsKey("id") && !map.containsKey("category_name")) throw new BadRequestException("PAYLOAD MALFORMED. Either (only) id or description or price or name or category_name MUST be PROVIDED !!!");
 
         List<Product> res;
         if(map.containsKey("id")) res = productService.getProductByField("id",map.get("id").toString());
         else if(map.containsKey("description")) res = productService.getProductByField("description", map.get("description").toString());
         else if(map.containsKey("price")) res = productService.getProductByField("price", map.get("price").toString());
-        else res = productService.getProductByField("name", map.get("name").toString());
+        else if(map.containsKey("name")) res = productService.getProductByField("name", map.get("name").toString());
+
+        // getting by category_name
+        else res = productService.getProductByField("category_name", map.get("category_name").toString());
 
         if(res==null) throw new EntityNotFoundException("NO SUCH Product(s) Found"); //404
         return res;

@@ -116,12 +116,26 @@ public class ProductService {
             return null;
         }
 
-        List<Product> resList;
+        List<Product> resList = new ArrayList<>();
         if(field.equals("description")) resList = repository.getProductsByDescription(value);
 
         else if(field.equals("price")) resList = repository.getProductsByPrice(Double.parseDouble(value));
 
-        else resList = repository.getProductsByName(value);
+        else if(field.equals("name")) resList = repository.getProductsByName(value);
+
+        // getting products by category name (value = name)
+        else{
+            List<Product> all = getProducts();
+            for(Product p : all){
+                if(!p.getCategories().isEmpty()){
+                    for(Category c : p.getCategories()){
+                        if(c.getName().equals(value)){
+                            resList.add(p);
+                        }
+                    }
+                }
+            }
+        }
 
         if(resList.size()>0) return resList;
         return null;
